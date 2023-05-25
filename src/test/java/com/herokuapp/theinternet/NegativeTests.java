@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 public class NegativeTests {
 
-    @Test
+    @Test(priority=1)
     public void invalidUsernameLoginTest(){
         //Open Chrome browser
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
@@ -45,7 +45,7 @@ public class NegativeTests {
         driver.quit();
     }
 
-    @Test
+    @Test(priority=2)
     public void invalidPasswordLoginTest(){
         //Open Chrome browser
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");

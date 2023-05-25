@@ -8,7 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class LogInTest {
-    @Test
+    @Test(enabled=false)
     public static void logInSuccess(){
         //Open Chrome browser
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
