@@ -4,22 +4,47 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 public class LoginTest {
+
+    private WebDriver driver;
+
+    @Parameters({"browser"})
+    @BeforeMethod(alwaysRun = true)
+    private void setUp(@Optional String browser){
+        //create driver
+        switch(browser){
+            case "chrome":
+                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+                driver = new ChromeDriver();
+                break;
+            case "firefox": //doesn't work im my env
+                System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver.exe");
+                driver = new FirefoxDriver();
+                break;
+            default:
+                System.out.println("Unsupported browser " + browser + ", will run in Chrome");
+                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+                driver = new ChromeDriver();
+                break;
+        }
+
+        //maximize browser window
+        driver.manage().window().maximize();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    private void tearDown(){
+        //close browser
+        driver.quit();
+    }
 
     @Test
     @Parameters({"username", "password", "expectedMessage"})
     public void validLoginTest(String username, String password, String expectedMessage){
-        //create driver
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-
-        //maximize browser window
-        driver.manage().window().maximize();
-
         //open test page
         String url = "http://the-internet.herokuapp.com/login";
         driver.get(url);
@@ -48,19 +73,11 @@ public class LoginTest {
         String actualMessage = successNtf.getText();
         Assert.assertTrue(actualMessage.contains(expectedMessage), "The message differs from expected");
 
-        //close browser
-        driver.quit();
-
     }
 
     @Test
     @Parameters({"username", "password", "expectedMessage"})
     public void invalidLoginTest(String username, String password, String expectedMessage){
-        //Open Chrome browser
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-
         //open test page
         String url = "http://the-internet.herokuapp.com/login";
         driver.get(url);
@@ -82,9 +99,6 @@ public class LoginTest {
         Assert.assertTrue(errorNtf.getText().contains(expectedMessage), "The notification message differs from expected");
         String redcolor = "rgba(198, 15, 19, 1)";
         Assert.assertEquals(errorNtf.getCssValue("background-color"), redcolor, "The background color of the notification differs from expected");
-
-        //close Chrome
-        driver.quit();
 
     }
 }

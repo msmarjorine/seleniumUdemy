@@ -3,6 +3,7 @@
 <suite name="LoginTests" verbose="1" >
 
     <test name="Valid credentials" >
+        <parameter name="browser" value="chrome"/>
         <classes>
             <class name="com.herokuapp.theinternet.LoginTest" />
             <methods>
@@ -15,6 +16,7 @@
     </test>
 
     <test name="Invalid Username" >
+        <parameter name="browser" value="chrome"/>
         <parameter name="username" value="userarbuser"/>
         <parameter name="password" value="SuperSecretPassword!"/>
         <parameter name="expectedMessage" value="Your username is invalid!"/>
@@ -27,6 +29,7 @@
     </test>
 
     <test name="Invalid Password" >
+        <parameter name="browser" value="safari"/>
         <parameter name="username" value="tomsmith"/>
         <parameter name="password" value="justsmth"/>
         <parameter name="expectedMessage" value="Your password is invalid!"/>
