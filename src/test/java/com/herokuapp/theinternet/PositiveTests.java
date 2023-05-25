@@ -27,9 +27,6 @@ public class PositiveTests {
         driver.get(url);
         System.out.println("The page is opened");
 
-        //sleep for 2 seconds for demo purpose
-        sleep(2000);
-
         //enter username
         WebElement username = driver.findElement(By.id("username"));
         String validUsername = "tomsmith";
